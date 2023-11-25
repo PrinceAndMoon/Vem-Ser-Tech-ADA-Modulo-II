@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jogo da Velha</title>
+    <style>
+        td {
+            width: 50px;
+            height: 50px;
+            text-align: center;
+            font-size: 24px;
+            cursor: pointer;
+            border: 1px solid #ccc;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Jogo da Velha</h1>
+
+<table id="tabuleiro">
+    <tr>
+        <td onclick="fazerJogada(0, 0)" id="cell-00"></td>
+        <td onclick="fazerJogada(0, 1)" id="cell-01"></td>
+        <td onclick="fazerJogada(0, 2)" id="cell-02"></td>
+    </tr>
+    <tr>
+        <td onclick="fazerJogada(1, 0)" id="cell-10"></td>
+        <td onclick="fazerJogada(1, 1)" id="cell-11"></td>
+        <td onclick="fazerJogada(1, 2)" id="cell-12"></td>
+    </tr>
+    <tr>
+        <td onclick="fazerJogada(2, 0)" id="cell-20"></td>
+        <td onclick="fazerJogada(2, 1)" id="cell-21"></td>
+        <td onclick="fazerJogada(2, 2)" id="cell-22"></td>
+    </tr>
+</table>
+
+<p id="mensagem"></p>
+
+<script>
+let tabuleiro = [
+    ['', '', ''],
+    ['', '', ''],
+    ['', '', '']
+];
+
+let jogadorAtual = 'X';
+let jogoAtivo = true;
+
+function fazerJogada(linha, coluna) {
+    if (tabuleiro[linha][coluna] === '' && jogoAtivo) {
+        tabuleiro[linha][coluna] = jogadorAtual;
+        atualizarTabuleiro();
+        verificarVencedor();
+        alternarJogador();
+    }
+}
+
+function atualizarTabuleiro() {
+    const tabuleiroElement = document.getElementById('tabuleiro');
+
+    for (let i = 0; i < 3; i++) {
+        for (let j = 0; j < 3; j++) {
+            const cell = tabuleiroElement.rows[i].cells[j];
+            cell.textContent = tabuleiro[i][j];
+        }
+    }
+}
+
+function verificarVencedor() {
+    for (let i = 0; i < 3; i++) {
+        if (
+            (tabuleiro[i][0] === jogadorAtual && tabuleiro[i][1] === jogadorAtual && tabuleiro[i][2] === jogadorAtual) ||
+            (tabuleiro[0][i] === jogadorAtual && tabuleiro[1][i] === jogadorAtual && tabuleiro[2][i] === jogadorAtual)
+        ) {
+            exibirMensagem(`${jogadorAtual} venceu!`);
+            jogoAtivo = false;
+            return;
+        }
+    }
+
+    if (
+        (tabuleiro[0][0] === jogadorAtual && tabuleiro[1][1] === jogadorAtual && tabuleiro[2][2] === jogadorAtual) ||
+        (tabuleiro[0][2] === jogadorAtual && tabuleiro[1][1] === jogadorAtual && tabuleiro[2][0] === jogadorAtual)
+    ) {
+        exibirMensagem(`${jogadorAtual} venceu!`);
+        jogoAtivo = false;
+        return;
+    }
+
+    if (tabuleiro.flat().every(cell => cell !== '')) {
+        exibirMensagem('Empate!');
+        jogoAtivo = false;
+    }
+}
+
+function alternarJogador() {
+    jogadorAtual = jogadorAtual === 'X' ? 'O' : 'X';
+}
+
+function exibirMensagem(mensagem) {
+    document.getElementById('mensagem').textContent = mensagem;
+}
+
+</script>
+
+</body>
+</html>
+
+
+
+
+

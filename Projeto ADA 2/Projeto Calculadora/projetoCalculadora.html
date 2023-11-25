@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora Simples</title>
+</head>
+<body>
+
+<h1>Calculadora Simples</h1>
+
+<div id="calculadora-container">
+    <p id="prompt-text">Digite o primeiro número:</p>
+    <input type="text" id="input-text">
+    <button onclick="processarEntrada()">Próximo</button>
+</div>
+
+<p id="resultado"></p>
+
+<script>
+let numero1, numero2, operador;
+let passoAtual = 1;
+
+function processarEntrada() {
+    const inputText = document.getElementById('input-text').value;
+
+    if (passoAtual === 1) {
+        numero1 = parseFloat(inputText);
+        if (isNaN(numero1)) {
+            alert('Digite um número válido.');
+            return;
+        }
+    } else if (passoAtual === 2) {
+        operador = inputText;
+        if (!['+', '-', '*', '/'].includes(operador)) {
+            alert('Digite um operador válido (+, -, *, /).');
+            return;
+        }
+    } else if (passoAtual === 3) {
+        numero2 = parseFloat(inputText);
+        if (isNaN(numero2)) {
+            alert('Digite um número válido.');
+            return;
+        }
+        mostrarResultado();
+        return;
+    }
+
+    passoAtual++;
+    atualizarPrompt();
+}
+
+function atualizarPrompt() {
+    const promptText = document.getElementById('prompt-text');
+    const inputText = document.getElementById('input-text');
+
+    switch (passoAtual) {
+        case 1:
+            promptText.textContent = 'Digite o primeiro número:';
+            break;
+        case 2:
+            promptText.textContent = 'Digite o operador (+, -, *, /):';
+            break;
+        case 3:
+            promptText.textContent = 'Digite o segundo número:';
+            break;
+    }
+
+    inputText.value = '';
+}
+
+function mostrarResultado() {
+    const resultadoElement = document.getElementById('resultado');
+    const resultado = calcularOperacao(numero1, numero2, operador);
+    resultadoElement.textContent = `Resultado: ${resultado}`;
+}
+
+function calcularOperacao(numero1, numero2, operador) {
+    switch (operador) {
+        case '+':
+            return numero1 + numero2;
+        case '-':
+            return numero1 - numero2;
+        case '*':
+            return numero1 * numero2;
+        case '/':
+            if (numero2 !== 0) {
+                return numero1 / numero2;
+            } else {
+                return 'Erro: Divisão por zero!';
+            }
+        default:
+            return 'Operador inválido';
+    }
+}
+
+</script>
+
+</body>
+</html>
+
+
+

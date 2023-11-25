@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Escada</title>
+    <style>
+        pre {
+            font-size: 16px;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Escada</h1>
+
+<label for="numeroDegraus">Número de Degraus:</label>
+<input type="number" id="numeroDegraus" value="6" min="1">
+
+<button onclick="desenharEscada()">Desenhar Escada</button>
+
+<pre id="saida"></pre>
+
+<script>
+function desenharEscada() {
+    const n = document.getElementById('numeroDegraus').valueAsNumber;
+    let resultado = '';
+    for (let i = 1; i <= n; i++) {
+        let linha = '';
+        // Adicionar espaços à esquerda
+        for (let j = 1; j <= n - i; j++) {
+            linha += ' ';
+        }
+        // Adicionar '#' para formar a escada
+        for (let k = 1; k <= i; k++) {
+            linha += '#';
+        }
+        resultado += linha + '\n';
+    }
+    document.getElementById('saida').textContent = resultado;
+}
+
+// Inicializar a escada ao carregar a página
+desenharEscada();
+</script>
+
+</body>
+</html>
+
+

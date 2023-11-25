@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulação Bancária</title>
+</head>
+<body>
+
+<h1>Simulação Bancária</h1>
+
+<div id="saldo-container">
+    <!-- O saldo será exibido aqui -->
+</div>
+
+<div id="operacoes-container">
+    <label for="valor">Valor:</label>
+    <input type="number" id="valor" placeholder="Digite o valor">
+
+    <button onclick="realizarOperacao('deposito')">Depósito</button>
+    <button onclick="realizarOperacao('saque')">Saque</button>
+    <button onclick="consultarSaldo()">Consultar Saldo</button>
+</div>
+
+<script>
+let saldo = 0;
+let saldoVisivel = false;
+
+function atualizarSaldo() {
+    const saldoContainer = document.getElementById('saldo-container');
+
+    if (saldoVisivel) {
+        saldoContainer.innerHTML = `<p>Saldo atual: R$${saldo.toFixed(2)}</p>`;
+    } else {
+        saldoContainer.innerHTML = '';
+    }
+}
+
+function realizarOperacao(tipoOperacao) {
+    const valorInput = document.getElementById('valor');
+    const valor = parseFloat(valorInput.value);
+
+    if (isNaN(valor) || valor < 0) {
+        alert('Digite um valor válido.');
+        return;
+    }
+
+    switch (tipoOperacao) {
+        case 'deposito':
+            saldo += valor;
+            console.log(`Depósito de R$${valor} realizado. Novo saldo: R$${saldo}`);
+            break;
+        case 'saque':
+            if (valor <= saldo) {
+                saldo -= valor;
+                console.log(`Saque de R$${valor} realizado. Novo saldo: R$${saldo}`);
+            } else {
+                alert('Saldo insuficiente para realizar o saque.');
+            }
+            break;
+    }
+
+    atualizarSaldo();
+    valorInput.value = '';
+}
+
+function consultarSaldo() {
+    saldoVisivel = true;
+    atualizarSaldo();
+}
+
+</script>
+
+</body>
+</html>
+
